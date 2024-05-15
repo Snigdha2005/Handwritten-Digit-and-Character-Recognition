@@ -20,3 +20,6 @@ In today’s digitized world, there is a vast amount of handwritten data that re
 - data_prep.py - Flattening and reshaping training, testing data for usage as per all models
 - preprocessing.py - Dataset preprocessing, feature extraction
 - testing.py - Predicting one image
+- image_processing.py - Black and White filter + high contrast
+- image_processing_2.py - White corner mask and image adjustment
+- thicken.py - Thicken letter or digit and mask borders
