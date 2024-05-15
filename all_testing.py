@@ -5,7 +5,7 @@ from cnn import cnn_model
 from data_prep import le  # Assuming le is your LabelEncoder
 
 # Directory containing the images
-directory = 'snigdha_handwriting'
+directory = 'snigdha_adjusted_handwriting'
 correct_labels = []
 wrong_labels = []
 # Get a list of all the image filenames in the directory
