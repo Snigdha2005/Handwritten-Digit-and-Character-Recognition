@@ -1,8 +1,8 @@
 import os
 import numpy as np
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
-from cnn import cnn_model
-from data_prep import le  # Assuming le is your LabelEncoder
+from CNN.cnn import cnn_model
+from Preprocessing.data_prep import le  # Assuming le is your LabelEncoder
 
 # Directory containing the images
 directory = 'snigdha_adjusted_handwriting'

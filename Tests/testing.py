@@ -1,7 +1,7 @@
 import numpy as np
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
-from cnn import cnn_model
-from data_prep import le  # Assuming le is your LabelEncoder
+from CNN.cnn import cnn_model
+from Preprocessing.data_prep import le  # Assuming le is your LabelEncoder
 
 # Load the image
 img = load_img('A_image.jpg', color_mode='grayscale', target_size=(28, 28))

@@ -26,7 +26,7 @@ def thicken_letters(image_name, kernel_size=3, iterations=1):
     # Apply contrast enhancement if needed
     pil_image = Image.fromarray(image)
     enhancer = ImageEnhance.Contrast(pil_image)
-    enhanced_image = enhancer.enhance(2)  # Increase contrast
+    enhanced_image = enhancer.enhance(5)  # Increase contrast
     image = np.array(enhanced_image)
     masked_image = image
     # Apply binary thresholding
@@ -41,7 +41,7 @@ def thicken_letters(image_name, kernel_size=3, iterations=1):
     # Invert the image back
     thickened_image = cv2.bitwise_not(thickened_image)
     # Save the result
-    result_image_path = 'snigdha_adjusted_handwriting/' + image_name[0] + '_thickened.jpg'
+    result_image_path = 'pen_adjusted_letters/' + image_name[0] + '_adjusted_image.jpg'
     cv2.imwrite(result_image_path, thickened_image)
     
     # Display the original and thickened images

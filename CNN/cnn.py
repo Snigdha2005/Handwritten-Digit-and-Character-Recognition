@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from data_prep import le, X_train, y_train, X_test, y_test
+from Preprocessing.data_prep import le, X_train, y_train, X_test, y_test
 # Build CNN model
 cnn_model = Sequential([
     Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)),

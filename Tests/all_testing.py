@@ -1,11 +1,14 @@
 import os
 import numpy as np
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
-from cnn import cnn_model
-from data_prep import le  # Assuming le is your LabelEncoder
+
+from CNN.cnn import cnn_model
+from Preprocessing.data_prep import le  # Assuming le is your LabelEncoder
+import sys
+import os
 
 # Directory containing the images
-directory = 'snigdha_adjusted_handwriting'
+directory = 'pen_adjusted_letters'
 correct_labels = []
 wrong_labels = []
 # Get a list of all the image filenames in the directory
@@ -35,9 +38,9 @@ for filename in image_filenames:
     # Get the first letter of the image filename
     true_label = filename[0]
 
-    print("Image:", filename)
-    print("True label:", true_label)
-    print("Predicted label:", predicted_label)
+    print("Image:", filename, end = " ")
+    print("True label:", true_label, end = " ")
+    print("Predicted label:", predicted_label, end = " ")
     print("Predicted class:", predicted_class)
 
     # Check if the prediction is correct

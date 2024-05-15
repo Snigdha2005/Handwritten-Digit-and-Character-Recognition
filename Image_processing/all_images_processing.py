@@ -6,8 +6,8 @@ import numpy as np
 import os
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
-input_dir = 'snigdha_handwriting'
-output_dir = 'snigdha_adjusted_handwriting'
+input_dir = 'pen_letters'
+output_dir = 'pen_adjusted_letters'
 
 os.makedirs(output_dir, exist_ok=True)
 
