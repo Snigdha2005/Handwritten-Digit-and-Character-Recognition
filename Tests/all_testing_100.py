@@ -5,7 +5,7 @@ from CNN.cnn import cnn_model
 from Preprocessing.data_prep import le  # Assuming le is your LabelEncoder
 
 # Directory containing the images
-directory = 'snigdha_adjusted_handwriting'
+directory = 'pen_adjusted_letters'
 
 # Get a list of all the image filenames in the directory
 image_filenames = os.listdir(directory)
@@ -48,7 +48,7 @@ for _ in range(100):
 
 # Print the results
 for letter in correct_predictions.keys():
-    print(f"Letter: {letter}")
-    print(f"Correct predictions: {correct_predictions[letter]}")
+    print(f"Letter: {letter}", end = " ")
+    print(f"Correct predictions: {correct_predictions[letter]}", end = " ")
     print(f"Wrong predictions: {wrong_predictions[letter]}")
     print()
