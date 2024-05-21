@@ -58,17 +58,17 @@ def image_adjustment1(image_name):
     # Save the image
     cv2.imwrite('snigdha_adjusted_handwriting/'+image_name[0]+'_adjusted_image.jpg', image)
 
-def image_adjustment(image_name):
-    image_path = 'pen_letters/'+image_name
+def image_adjustment(inp_directory_name, image_name, out_directory_name):
+    image_path = inp_directory_name + '/' + image_name
     image = cv2.imread(image_path)
     with Image.open(image_path) as img:
         bw = img.convert('L')
         enhancer = ImageEnhance.Contrast(bw)
         pop_img = enhancer.enhance(10)
         pop_img_np = np.array(pop_img)
-        pop_img.save('pen_letters/'+image_name[0]+'_adjusted_image.jpg')
+        pop_img.save(out_directory_name + '/' + image_name[0] + '_adjusted_image.jpg')
         #edges = cv2.Canny(pop_img_np, 30, 100)
-        #thicken_letters('snigdha_adjusted_handwriting/'+image_name[0]+'_adjusted_image.jpg')
+        #thicken_letters('pen_adjusted_letters/'+image_name[0]+'_adjusted_image.jpg')
         # Display the original image and the edges side by side
         cv2.imshow('Original Image', image)
         cv2.imshow('Edited Image', pop_img_np)

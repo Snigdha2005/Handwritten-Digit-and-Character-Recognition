@@ -8,7 +8,7 @@ import sys
 import os
 
 # Directory containing the images
-directory = 'pen_adjusted_letters'
+directory = 'subashini_handwriting'
 correct_labels = []
 wrong_labels = []
 # Get a list of all the image filenames in the directory
