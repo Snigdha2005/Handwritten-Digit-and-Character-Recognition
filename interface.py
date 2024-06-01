@@ -11,7 +11,6 @@ class HandwritingRecognitionApp:
         self.root = root
         self.root.title("Handwriting Recognition")
         self.root.geometry("1920x1080")
-        #self.root.attributes('-fullscreen', True)
 
         # Load and set the background image
         self.background_image = Image.open("background_image.jpg") 
@@ -24,20 +23,21 @@ class HandwritingRecognitionApp:
         self.selected_option = tk.StringVar()
         self.img_array = None
         self.strokes = []
+        self.drawing = False
 
         self.create_widgets()
 
     def create_widgets(self):
         # Frame for options
-        self.option_frame = tk.Frame(self.root, bg='#bae1ff', bd=5)
-        self.option_frame.place(relx=0.45, rely=0.18, anchor='n')
+        self.option_frame = tk.Frame(self.root, bg='#bae1ff', relief='solid')
+        self.option_frame.place(relx=0.45, rely=0.18, anchor = 'n')
 
-        # Radio buttons for options
-        self.upload_radio = tk.Radiobutton(self.option_frame, text="Upload Image", variable=self.selected_option, value="upload", command=self.upload_image, font=("Arial", 20), bg='#bae1ff')
-        self.upload_radio.pack(side=tk.LEFT, padx=10)
+        #Radio buttons for options
+        self.upload_radio = tk.Radiobutton(self.option_frame, text="Upload Image", variable=self.selected_option, value="upload", command=self.upload_image, font=("Arial", 20), bg='#bae1ff', bd = 5, relief = 'solid')
+        self.upload_radio.pack(side=tk.LEFT)
 
-        self.draw_radio = tk.Radiobutton(self.option_frame, text="Draw on Canvas", variable=self.selected_option, value="draw", font=("Arial", 20), bg='#bae1ff')
-        self.draw_radio.pack(side=tk.LEFT, padx=10)
+        self.draw_radio = tk.Radiobutton(self.option_frame, text="Draw on Canvas", variable=self.selected_option, value="draw", font=("Arial", 20), bg='#bae1ff', bd = 5, relief = 'solid')
+        self.draw_radio.pack(side=tk.LEFT)
 
         # Canvas for drawing
         self.canvas = tk.Canvas(self.root, bg="white", bd=2, relief="ridge")
@@ -49,26 +49,39 @@ class HandwritingRecognitionApp:
         canvas_width = self.canvas.winfo_width()
         canvas_height = self.canvas.winfo_height()
         self.bounding_box = self.canvas.create_rectangle(10, 10, canvas_width - 10, canvas_height - 10, outline="red")
+  
+        self.result_frame = tk.Frame(self.root, bg='#ffffff', bd=5, relief='solid')
+        self.result_frame.place(relx=0.70, rely=0.4)
+        self.result_label = tk.Label(self.result_frame, text="Prediction: ", font=("Comic Sans MS", 20), bg='#bae1ff')
+        self.result_label.pack()
 
-        self.result_label = tk.Label(self.root, text="Prediction: ", font=("Comic Sans MS", 20), bg='#bae1ff')
-        self.result_label.place(relx=0.70, rely=0.4)  
-
-        self.accuracy_label = tk.Label(self.root, text="Accuracy: ", font=("Comic Sans MS", 20), bg='#bae1ff')
-        self.accuracy_label.place(relx=0.70, rely=0.5)  
+        self.accuracy_frame = tk.Frame(self.root, bg='#ffffff', bd=5, relief='solid')
+        self.accuracy_frame.place(relx=0.70, rely=0.5)
+        self.accuracy_label = tk.Label(self.accuracy_frame, text="Accuracy: ", font=("Comic Sans MS", 20), bg='#bae1ff')
+        self.accuracy_label.pack()
 
         # Clear Canvas button
-        self.clear_btn = tk.Button(self.root, text="Clear Canvas", command=self.clear_canvas, font=("Comic Sans MS", 18), bg='#bae1ff')
+        self.clear_btn = tk.Button(self.root, text="Clear Canvas", command=self.clear_canvas, font=("Comic Sans MS", 18), bg='#bae1ff', bd=5, relief='solid')
         self.clear_btn.place(relx=0.30, rely=0.78, relwidth=0.15, relheight=0.05)
 
         # Predict button
-        self.predict_btn = tk.Button(self.root, text="Predict", command=self.predict, font=("Comic Sans MS", 18), bg='#bae1ff')
+        self.predict_btn = tk.Button(self.root, text="Predict", command=self.predict, font=("Comic Sans MS", 18), bg='#bae1ff', bd=5, relief='solid')
         self.predict_btn.place(relx=0.45, rely=0.78, relwidth=0.15, relheight=0.05)
 
         # Bind mouse events for canvas drawing
+        self.canvas.bind("<ButtonPress-1>", self.start_drawing)
         self.canvas.bind("<B1-Motion>", self.draw_on_canvas)
+        self.canvas.bind("<ButtonRelease-1>", self.stop_drawing)
 
-        # Bind resize event
+       # Bind resize event
         self.root.bind("<Configure>", self.on_resize)
+
+    def start_drawing(self, event):
+        self.drawing = True
+        self.strokes.append((event.x, event.y))
+
+    def stop_drawing(self, event):
+        self.drawing = False
 
 
     def on_resize(self, event):
@@ -92,8 +105,8 @@ class HandwritingRecognitionApp:
                 drawn_image = self.create_image_from_strokes()
                 
                 #UNCOMMENT THIS PART TO SEE WHAT IMAGE IS BEING GENERATED FROM THE IMAGE ARRAY FORMED FROM THOSE STROKES DRAWN BY US IN THE CANVAS PART
-                #img = Image.fromarray((drawn_image.reshape(28, 28) * 255).astype(np.uint8), mode='L')
-                #img.show()
+                img = Image.fromarray((drawn_image.reshape(28, 28) * 255).astype(np.uint8), mode='L')
+                img.show()
 
                 prediction = cnn_model.predict(drawn_image)
                 predicted_class = np.argmax(prediction)
@@ -120,11 +133,12 @@ class HandwritingRecognitionApp:
         self.predict_btn.config(state=tk.NORMAL)
 
     def draw_on_canvas(self, event):
-        x, y = event.x, event.y
-        r = 12
-        self.canvas.create_oval(x - r, y - r, x + r, y + r, fill="black")
-        self.strokes.append((x, y))
-        self.predict_btn.config(state=tk.NORMAL)
+        if self.drawing:
+            x, y = event.x, event.y
+            r = 12
+            self.canvas.create_oval(x - r, y - r, x + r, y + r, fill="black")
+            self.strokes.append((x, y))
+            self.predict_btn.config(state=tk.NORMAL)
 
     def create_image_from_strokes(self):
         img = Image.new("L", (600, 600), "white")
