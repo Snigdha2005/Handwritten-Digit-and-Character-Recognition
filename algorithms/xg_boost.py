@@ -1,5 +1,5 @@
 import xgboost as xgb
-from data_prep import le, X_test_flat, X_train_flat, y_train, y_test
+from Preprocessing.data_prep import le, X_test_flat, X_train_flat, y_train, y_test
 from sklearn.metrics import accuracy_score, precision_score, classification_report
 
 # Train XGBoost model

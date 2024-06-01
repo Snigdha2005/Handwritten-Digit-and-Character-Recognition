@@ -3,7 +3,7 @@ from Preprocessing.data_prep import le, X_test_flat, X_train_flat, y_train_flat,
 from sklearn.metrics import accuracy_score, precision_score, classification_report
 
 # Train SVM
-svm_model = SVC(kernel='linear', random_state=42)
+svm_model = SVC(kernel='rbf', random_state=42)
 svm_model.fit(X_train_flat, y_train_flat)
 
 # Predict and evaluate

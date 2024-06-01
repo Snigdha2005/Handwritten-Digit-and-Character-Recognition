@@ -1,5 +1,5 @@
 from sklearn.neural_network import MLPClassifier
-from data_prep import le, X_test, X_train, y_train, y_test
+from Preprocessing.data_prep import le, X_test, X_train, y_train, y_test
 from sklearn.metrics import accuracy_score, precision_score, classification_report
 import tensorflow as tf
 from tensorflow.keras.models import Sequential

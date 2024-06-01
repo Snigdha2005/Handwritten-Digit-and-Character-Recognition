@@ -3,9 +3,10 @@ import pandas as pd
 import cv2
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+import numpy as np
 
 df = pd.read_csv('data/english.csv')
-image_paths = ['data/img/' + img_path for img_path in df['image']]
+image_paths = ['data/Img/' + img_path for img_path in df['image']]
 labels = df['label']
 
 #print(df.head())
@@ -32,13 +33,15 @@ def preprocess_image(image_path):
 
 def all_preprocessed_images():
     preprocessed_images = []
-
-    for path in image_paths:
+    valid_labels =[]
+    for path, label in zip(image_paths, labels):
         img = preprocess_image(path)
         if img is not None:
             preprocessed_images.append(img)
+            valid_labels.append(label)
 
     print(f"Number of successfully preprocessed images: {len(preprocessed_images)}")
-    return preprocessed_images
+    return preprocessed_images, valid_labels
 
-preprocessed_images = all_preprocessed_images()
+preprocessed_images, valid_labels = all_preprocessed_images()
+flattened_images = np.array([img.flatten() for img in preprocessed_images])
