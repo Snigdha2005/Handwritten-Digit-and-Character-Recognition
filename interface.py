@@ -3,8 +3,8 @@ from tkinter import filedialog, messagebox
 from PIL import Image, ImageDraw, ImageTk
 import numpy as np
 from keras.preprocessing.image import img_to_array, load_img
-from data_prep import le  
-from cnn import cnn_model
+from Preprocessing.data_prep import le  
+from CNN.cnn import cnn_model
 
 class HandwritingRecognitionApp:
     def __init__(self, root):
